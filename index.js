@@ -53,6 +53,10 @@ let checkURL = {
       let body = '';
       req.on('data', data => {
         body += data;
+        if (body.length > 1024) {
+          res.writeHead(403, { 'Content-Type': 'text/html' });
+          res.end('<h1>File Size is too big</h1>');
+        }
       });
       req.on('end', () => {
         let query = qs.parse(body);
